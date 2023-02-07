@@ -12,4 +12,19 @@
 // * Use a match expression to determine which message
 //   to print
 
-fn main() {}
+fn display_result(result:bool) {
+    let message = match result {
+        true => String::from("Its small"),
+        false => String::from("Its big")
+    };
+
+    println!("{message}");
+}
+
+fn main() {
+    let some_number = 100;
+    let result = some_number <= 100;
+
+    display_result(result);
+}
+
