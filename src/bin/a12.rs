@@ -9,11 +9,21 @@
 // * Use an enum for the box color
 // * Implement functionality on the box struct to create a new box
 // * Implement functionality on the box struct to print the characteristics
-
+#[allow(dead_code)]
 enum BoxColor {
     Red,
     Blue,
     Green,
+}
+
+impl BoxColor {
+    fn print(&self) {
+        match self {
+            BoxColor::Red => println!("Box color: Red."),
+            BoxColor::Blue => println!("Box color: Blue."),
+            BoxColor::Green => println!("Box color: Green."),
+        }
+    }
 }
 
 struct Dimensions {
@@ -25,10 +35,14 @@ struct Dimensions {
 impl Dimensions {
     fn new(width: f64, height: f64, depth: f64) -> Self {
         Dimensions {
-            width: width,
-            height: height,
-            depth: depth,
+            width,
+            height,
+            depth,
         }
+    }
+
+    fn print(&self) {
+        println!("Dimensions: {0}\"X{1}\"X{2}\"", self.width, self.height, self.depth);
     }
 }
 
@@ -41,30 +55,22 @@ struct ShippingBox {
 impl ShippingBox {
     fn new(dimensions: Dimensions, weight: f64, color: BoxColor) -> Self {
         ShippingBox {
-            dimensions: dimensions,
-            weight: weight,
-            color: color,
+            dimensions,
+            weight,
+            color,
         }
     }
 
-    fn display_box(&self) {
-        println!(
-            "Dimensions: {0}inX{1}inX{2}in",
-            self.dimensions.width, self.dimensions.height, self.dimensions.depth
-        );
+    fn print(&self) {
+        self.dimensions.print();
         println!("Weight: {}lbs", self.weight);
-        match self.color {
-            BoxColor::Red => println!("Box color: Red."),
-            BoxColor::Blue => println!("Box color: Blue."),
-            BoxColor::Green => println!("Box color: Green."),
-
-        }
+        self.color.print();
     }
 }
 
 fn main() {
     let box_new = ShippingBox::new(Dimensions::new(4.5, 3.0, 11.0), 64.0, BoxColor::Green);
-    
-    box_new.display_box();
+
+    box_new.print();
 }
 
