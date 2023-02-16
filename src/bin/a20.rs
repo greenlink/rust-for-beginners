@@ -22,5 +22,53 @@
 // * Use a match expression to convert the user input into the power state enum
 // * The program should be case-insensitive (the user should be able to type
 //   Reboot, reboot, REBOOT, etc.)
+use std::io::stdin;
 
-fn main() {}
+enum PowerState {
+    Off,
+    Sleep,
+    Reboot,
+    Shutdown,
+    Hibernate,
+}
+
+impl PowerState {
+    fn new(state_name: &str) -> Option<Self> {
+        let name = state_name.trim().to_lowercase();
+        match name.as_str() {
+            "off" => Some(Self::Off),
+            "sleep" => Some(Self::Sleep),
+            "reboot" => Some(Self::Reboot),
+            "shutdown" => Some(Self::Shutdown),
+            "hibernate" => Some(Self::Hibernate),
+            _ => None,
+        }
+    }
+
+    fn print(&self) {
+        match self {
+            Self::Off => println!("Turn off computer."),
+            Self::Sleep => println!("Sleep mode on."),
+            Self::Reboot => println!("Starting reboot command."),
+            Self::Shutdown => println!("Shuting down the OS."),
+            Self::Hibernate => println!("Entering hibernation mode."),
+        }
+    }
+}
+
+fn main() {
+    println!("Enter a command for the computer: ");
+    let mut buffer = String::new();
+    let user_input_status = stdin().read_line(&mut buffer);
+    
+    if !user_input_status.is_ok() {
+        println!("Error trying to read command.");
+        return;
+    }
+
+    match PowerState::new(&buffer) {
+        Some(s) => s.print(),
+        None => println!("Command not found."),
+    }
+}
+
